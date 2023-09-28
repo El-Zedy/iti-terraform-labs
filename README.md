@@ -1,12 +1,12 @@
 # ITI-Terraform-Labs
 
 ### Networking
-1- create vpc
-2- create internet gateway
-3- create public route table
-4- create private route table
-5- create public route
-6- attach public route table to subnets
+1. create vpc
+2. create internet gateway
+3. create public route table
+4. create private route table
+5. create public route
+6. attach public route table to subnets
 
 Compute
 7- create security group which allow ssh from 0.0.0.0/0
