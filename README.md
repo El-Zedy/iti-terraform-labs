@@ -16,9 +16,6 @@
 `Compute`
 
 7. create security group which allow ssh from 0.0.0.0/0
-
 8. create security group that allow ssh and port 3000 from vpc cidr only
-
 7. create ec2(bastion) in public subnet with security group from 7
-
 8. create ec2(application) private subnet with security group from 8
