@@ -14,6 +14,7 @@
 6. attach public route table to subnets
 
 `Compute`
+
 7. create security group which allow ssh from 0.0.0.0/0
 
 8. create security group that allow ssh and port 3000 from vpc cidr only
