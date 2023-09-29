@@ -1,16 +1,13 @@
 # ITI-Terraform-Labs
 ### Lab1
+
 `Networking`
+
 1. create vpv
-
 2. create internet gateway
-
 3. create public route table
-
 4. create private route table
-
 5. create public route
-
 6. attach public route table to subnets
 
 `Compute`
