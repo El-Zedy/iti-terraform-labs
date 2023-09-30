@@ -26,7 +26,7 @@
 5. run local-exec provisioner to print the public_ip of bastion ec2
 6. upload infrastructure code on github project
 
-7. verify your email in ses service
+7. verify your email in ses (Simple Email Service) service
 8. create lambda function to send email
 9. create trigger to detect changes in state file and send the email
 
