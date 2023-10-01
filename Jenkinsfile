@@ -22,7 +22,7 @@ pipeline {
                     sh '''
                         terraform init
                         echo "+++++++++++++++++++++++++++++++++++"
-                        terraform workspace select $env.TF_VAR_environment || terraform workspace new $env.TF_VAR_environment
+                        terraform workspace select ${env.TF_VAR_environment} || terraform workspace new ${env.TF_VAR_environment}
                         terraform workspace list
                     '''
                 }
