@@ -24,6 +24,8 @@ pipeline {
                         
                         // Check if the Terraform workspace exists, and create it if it doesn't
                         sh "terraform workspace select ${TF_VAR_environment} || terraform workspace new ${TF_VAR_environment}"
+                        sh 'terraform workspace list'
+
                     }
                 }
             }
