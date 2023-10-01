@@ -22,7 +22,7 @@ pipeline {
                         terraform init
                         echo "+++++++++++++++++++++++++++++++++++"
                         echo $TF_VAR_environment
-                        terraform workspace new $env.TF_VAR_environment
+                        terraform workspace new $TF_VAR_environment
                         terraform workspace select $TF_VAR_environment
                         terraform workspace list
                     '''
@@ -35,8 +35,8 @@ pipeline {
                 script {
                     // Plan and apply Terraform changes
                     sh '''
-                        terraform plan -var-file "${env.TF_VAR_environment}.tfvars"
-                        terraform apply -var-file "${env.TF_VAR_environment}.tfvars" -auto-approve
+                        terraform plan -var-file $TF_VAR_environment.tfvars"
+                        terraform apply -var-file $TF_VAR_environment.tfvars -auto-approve
                     '''
                 }
             }
