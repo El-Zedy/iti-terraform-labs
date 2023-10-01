@@ -1,13 +1,6 @@
 pipeline {
     agent any
     
-    stages {
-        stage('Getting Repo files') {
-            steps {
-                git branch: "${GIT_BRANCH}", credentialsId: 'mygithub', url: "${env.REPO_URL}"
-            }
-        }
-        
         stage('Set Environment') {
             steps {
                 script {
