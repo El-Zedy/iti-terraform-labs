@@ -11,9 +11,9 @@ pipeline {
             steps {
                 script {
                     // Set Terraform environment variables based on the selected environment
-                    if (params.ENVIRONMENT == 'dev' && env.GIT_BRANCH == 'dev') {
+                    if (params.ENVIRONMENT == 'dev' && env.BRANCH_NAME == 'dev') {
                         env.TF_VAR_environment=dev
-                    } else if (params.ENVIRONMENT == 'prod' && env.GIT_BRANCH == 'prod') {
+                    } else if (params.ENVIRONMENT == 'prod' && env.BRANCH_NAME == 'prod') {
                         env.TF_VAR_environment=prod
                     } else {
                         error 'Invalid environment selected'
