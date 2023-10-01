@@ -19,6 +19,11 @@ pipeline {
                         error 'Invalid environment selected'
                     }
 
+                    // Initialize Terraform with backend configuration
+                    sh '''
+                        terraform init
+                    '''
+
                     // Check if the Terraform workspace exists
                     def workspaceExists = sh(script: 'terraform workspace list | grep -q $TF_VAR_environment', returnStatus: true)
                     
@@ -29,18 +34,10 @@ pipeline {
                         // Create the Terraform workspace
                         error "Workspace $TF_VAR_environment does not exist. Cannot destroy infrastructure."
                     }
-
-                    // Initialize Terraform with backend configuration
-                    sh '''
-                        echo "++++++++++++++++++++++++++++++++++"
-                        terraform init -reconfigure
-                        echo "++++++++++++++++++++++++++++++++++"
-                    '''
+                    
                     // Destroy the infrastructure
                     sh '''
-                        echo "++++++++++++++++++++++++++++++++++"
                         terraform destroy -var-file $TF_VAR_environment.tfvars -auto-approve
-                        echo "++++++++++++++++++++++++++++++++++"
                     '''
                 }
             }
