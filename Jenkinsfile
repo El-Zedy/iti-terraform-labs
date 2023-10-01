@@ -18,24 +18,20 @@ pipeline {
                     } else {
                         error 'Invalid environment selected'
                     }
+
+                    sh 'terraform init'
                     
                     // Check if the Terraform workspace exists
                     def workspaceExists = sh(script: 'terraform workspace list | grep -q $TF_VAR_environment', returnStatus: true)
                     
                     if (workspaceExists == 0) {
                         echo "Workspace $TF_VAR_environment already exists"
+                        sh "terraform workspace select $TF_VAR_environment"
                     } else {
                         // Create the Terraform workspace
                         sh "terraform workspace new $TF_VAR_environment"
                         echo "Workspace $TF_VAR_environment created"
                     }
-                    
-                    sh '''
-                        terraform init
-                        echo "+++++++++++++++++++++++++++++++++++"
-                        terraform workspace select $TF_VAR_environment
-                        echo "+++++++++++++++++++++++++++++++++++"
-                    '''
                 }
             }
         }
