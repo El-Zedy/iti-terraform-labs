@@ -4,10 +4,6 @@ pipeline {
     parameters {
         choice(name: 'ENVIRONMENT', choices: ['dev', 'prod'], description: 'Select the environment to deploy (dev or prod)')
     }
-    
-    environment {
-        TF_VAR_environment=""
-    }
     stages {
         
         stage('Terraform Init') {
