@@ -32,7 +32,7 @@ pipeline {
 
                     // Destroy the infrastructure
                     sh '''
-                        terraform init
+                        terraform init -reconfigure
                         terraform destroy -var-file $TF_VAR_environment.tfvars -auto-approve
                         '''
                 }
