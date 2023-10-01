@@ -1,45 +1,44 @@
 pipeline {
     agent any
-        stages {
-            stage('Set Environment') {
-                steps {
-                    script {
-                        
-                        if (env.GIT_BRANCH == 'dev') {
-                            sh 'export TF_VAR_environment=dev'
-                        } else if (env.GIT_BRANCH == 'prod') {
-                            sh 'export TF_VAR_environment=prod'
-                        } else {
-                            error 'Invalid branch name. Supported branches are "dev" and "prod".'
-                        }
+    
+    parameters {
+        choice(name: 'ENVIRONMENT', choices: ['dev', 'prod'], description: 'Select the environment to deploy (dev or prod)')
+    }
+    
+    stages {
+        
+        stage('Terraform Init') {
+            steps {
+                script {
+                    // Set Terraform environment variables based on the selected environment
+                    if (params.ENVIRONMENT == 'dev' && env.GIT_BRANCH == 'dev') {
+                        env.TF_VAR_environment=dev
+                    } else if (params.ENVIRONMENT == 'prod' && env.GIT_BRANCH == 'prod') {
+                        env.TF_VAR_environment=prod
+                    } else {
+                        error 'Invalid environment selected'
                     }
-                }
-            }
-            
-            stage('Terraform Init') {
-                steps {
-                    script {
-                        // Initialize Terraform
-                        sh 'terraform init'
-                        
-                        // Check if the Terraform workspace exists, and create it if it doesn't
-                        sh "terraform workspace select ${TF_VAR_environment} || terraform workspace new ${TF_VAR_environment}"
-                        sh 'terraform workspace list'
-
-                    }
-                }
-            }
-            
-            stage('Terraform Apply') {
-                steps {
-                    script {
-                        // Plan and apply Terraform changes
-                        sh "terraform plan -var-file ${TF_VAR_environment}.tfvars" 
-                        sh "terraform apply -var-file ${TF_VAR_environment}.tfvars -auto-approve"
-                    }
+                    sh '''
+                        terraform init
+                        terraform workspace select $TF_VAR_environment || terraform workspace new TF_VAR_environment
+                        terraform workspace list
+                    '''
                 }
             }
         }
+        
+        stage('Terraform Apply') {
+            steps {
+                script {
+                    // Plan and apply Terraform changes
+                    sh '''
+                        terraform plan -var-file ${env.TF_VAR_environment}.tfvars
+                        terraform apply -var-file ${env.TF_VAR_environment}.tfvars -auto-approve
+                    '''
+                }
+            }
+        }
+    }
     
     post {
         success {
