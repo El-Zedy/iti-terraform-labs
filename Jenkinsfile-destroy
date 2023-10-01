@@ -29,10 +29,10 @@ pipeline {
                         // Create the Terraform workspace
                         error "Workspace $TF_VAR_environment does not exist. Cannot destroy infrastructure."
                     }
-
+                    sh 'echo "########################"'
                     // Initialize Terraform with backend configuration
                     sh 'terraform init'
-
+                    sh 'echo "########################"'
                     // Destroy the infrastructure
                     sh '''
                         terraform destroy -var-file $TF_VAR_environment.tfvars -auto-approve
