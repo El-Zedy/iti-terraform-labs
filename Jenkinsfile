@@ -5,6 +5,9 @@ pipeline {
         choice(name: 'ENVIRONMENT', choices: ['dev', 'prod'], description: 'Select the environment to deploy (dev or prod)')
     }
     
+    environment {
+        TF_VAR_environment=""
+    }
     stages {
         
         stage('Terraform Init') {
@@ -22,7 +25,7 @@ pipeline {
                     sh '''
                         terraform init
                         echo "+++++++++++++++++++++++++++++++++++"
-                        terraform workspace select ${env.TF_VAR_environment} || terraform workspace new ${env.TF_VAR_environment}
+                        terraform workspace select $TF_VAR_environment || terraform workspace new $TF_VAR_environment
                         terraform workspace list
                     '''
                 }
