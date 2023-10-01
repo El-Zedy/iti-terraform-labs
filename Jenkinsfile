@@ -39,7 +39,11 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 script {
-                    sh  "terraform apply -var-file $TF_VAR_environment.tfvars -auto-approve"
+                    // Plan and apply Terraform changes
+                    sh '''
+                    terraform plan -var-file $TF_VAR_environment.tfvars
+                    terraform apply -var-file $TF_VAR_environment.tfvars -auto-approve
+                    '''
                 }
             }
         }
