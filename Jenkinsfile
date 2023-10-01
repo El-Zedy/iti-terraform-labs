@@ -13,15 +13,15 @@ pipeline {
                     sh 'echo $BRANCH_NAME'
                     // Set Terraform environment variables based on the selected environment
                     if (params.ENVIRONMENT == 'dev' && env.BRANCH_NAME == 'dev') {
-                        env.TF_VAR_environment=dev
+                        env.TF_VAR_environment = 'dev' // Use single quotes to specify string literals
                     } else if (params.ENVIRONMENT == 'prod' && env.BRANCH_NAME == 'prod') {
-                        env.TF_VAR_environment=prod
+                        env.TF_VAR_environment = 'prod' // Use single quotes to specify string literals
                     } else {
                         error 'Invalid environment selected'
                     }
                     sh '''
                         terraform init
-                        terraform workspace select $TF_VAR_environment || terraform workspace new TF_VAR_environment
+                        terraform workspace select "${env.TF_VAR_environment}" || terraform workspace new "${env.TF_VAR_environment}"
                         terraform workspace list
                     '''
                 }
@@ -33,8 +33,8 @@ pipeline {
                 script {
                     // Plan and apply Terraform changes
                     sh '''
-                        terraform plan -var-file ${env.TF_VAR_environment}.tfvars
-                        terraform apply -var-file ${env.TF_VAR_environment}.tfvars -auto-approve
+                        terraform plan -var-file "${env.TF_VAR_environment}.tfvars"
+                        terraform apply -var-file "${env.TF_VAR_environment}.tfvars" -auto-approve
                     '''
                 }
             }
