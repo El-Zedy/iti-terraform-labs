@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Getting Repo files') {
             steps {
-                git branch: "${GIT_BRANCH}", credentialsId: 'azure_credentials_devops', url: "${env.REPO_URL}"
+                git branch: "${GIT_BRANCH}", credentialsId: 'mygithub', url: "${env.REPO_URL}"
             }
         }
         
