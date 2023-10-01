@@ -10,7 +10,7 @@ pipeline {
         stage('Terraform Init') {
             steps {
                 script {
-                    sh 'echo env.BRANCH_NAME'
+                    sh 'echo ${env.BRANCH_NAME}'
                     // Set Terraform environment variables based on the selected environment
                     if (params.ENVIRONMENT == 'dev' && env.BRANCH_NAME == 'dev') {
                         env.TF_VAR_environment=dev
